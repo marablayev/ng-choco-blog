@@ -1,0 +1,70 @@
+<ng-container *ngIf="post">
+  <!-- Title -->
+  <h1 class="mt-4">{{post.title}}</h1>
+
+  <!-- Author -->
+  <p class="lead">
+    by
+    <a href="#">{{post.author.username}}</a>
+  </p>
+
+  <hr>
+
+  <!-- Date/Time -->
+  <p>Опубликован в {{post.publish_date | date: 'dd.MM.yyyy HH:mm'}}</p>
+
+  <hr>
+
+  <!-- Preview Image -->
+  <img class="img-fluid rounded" src="{{post.image || 'http://placehold.it/900x300'}}" alt="">
+
+  <hr>
+
+  <!-- Post Content -->
+  <p class="lead">{{post.text}}</p>
+
+  <hr>
+  <p>Рейтинг: {{post.rating}}</p>
+  <div class="card my-4" *ngIf="userLoggedIn()">
+    <div class="card-body">
+      <h5 class="card-header">{{alreadyRate ? 'Ваша оценка: ' + userRate : 'Оцените статью'}}</h5>
+      <form [formGroup]="rateForm" *ngIf="!alreadyRate">
+        <div class="form-group">
+          <input type="radio" [value]="1" formControlName="rate"><span>1 </span>
+          <input type="radio" [value]="2" formControlName="rate"><span>2 </span>
+          <input type="radio" [value]="3" formControlName="rate"><span>3 </span>
+          <input type="radio" [value]="4" formControlName="rate"><span>4 </span>
+          <input type="radio" [value]="5" formControlName="rate"><span>5 </span>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="submitRate()">Оценить</button>
+      </form>
+    </div>
+
+  </div>
+  <!-- Comments Form -->
+  <div class="card my-4">
+    <div class="card-body">
+      <h5 class="card-header">{{userLoggedIn() ? 'Оставьте коментарий:' : 'Войдите, чтобы оставить коментарий'}}</h5>
+      <form [formGroup]="commentForm">
+        <div class="form-group">
+          <textarea formControlName="text" class="form-control" rows="3" [disabled]="!userLoggedIn()"></textarea>
+        </div>
+        <button *ngIf="userLoggedIn()" type="submit" class="btn btn-primary" (click)="submitComment()">Отправить</button>
+        <a *ngIf="!userLoggedIn()" routerLink="/login" class="btn btn-primary">Войти</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- Single Comment -->
+  <ng-container *ngFor="let comment of comments">
+    <div class="media mb-4">
+      <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+      <div class="media-body">
+        <h5 class="mt-0" style="margin-bottom: 0;">{{comment.author.username}}</h5>
+        <small class="text-muted">{{comment.publish_date | date: 'dd.MM.yyyy HH:mm'}}</small><br/>
+        {{comment.text}}
+      </div>
+    </div>
+  </ng-container>
+
+</ng-container>

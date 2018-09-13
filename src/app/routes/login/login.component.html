@@ -1,0 +1,24 @@
+<div class="login-page">
+  <div class="form">
+    <ng-container *ngIf="!formToggler">
+      <form class="login-form" [formGroup]="registerForm">
+        <input type="text" class="{{checkError(registerForm, 'username')}}" placeholder="имя пользователя" formControlName="username"/>
+        <input type="password" class="{{checkError(registerForm, 'password')}}" placeholder="пароль" formControlName="password"/>
+        <input type="text" class="{{checkError(registerForm, 'email')}}" placeholder="email" formControlName="email"/>
+        <button (click)="register()">Создать аккаунт</button>
+        <p class="text-danger message" *ngIf="error">{{error}}</p>
+        <p class="message">Уже зарегистрированы? <a (click)="toggleForm()">Войти</a></p>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="formToggler">
+      <form class="login-form" [formGroup]="loginForm">
+        <input type="text" class="{{checkError(loginForm, 'username')}}" placeholder="имя пользователя" formControlName="username"/>
+        <input type="password" class="{{checkError(loginForm, 'password')}}" placeholder="пароль" formControlName="password"/>
+        <button (click)="login()">Войти</button>
+        <p class="text-danger message" *ngIf="error">{{error}}</p>
+
+        <p class="message">У вас нет аккаунта? <a (click)="toggleForm()">Регистрация</a></p>
+      </form>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">ChocoBlog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/">Главная</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/blog/filter/featured">Горячие</a>
+        </li>
+        <li class="nav-item" *ngIf="userLoggedIn()">
+          <a class="nav-link" routerLink="/blog/create">Создать</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="!userLoggedIn()" routerLink="/login">Войти</a>
+          <a class="nav-link" *ngIf="userLoggedIn()" (click)="logout()">Выйти</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+        <router-outlet></router-outlet>
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+
+      <!-- Categories Widget -->
+      <div class="card my-4">
+        <h5 class="card-header">Категории</h5>
+        <div class="card-body">
+          <div class="row">
+            <ng-container *ngFor="let category of categories">
+              <div class="col-lg-6">
+                <a routerLink="{{'/blog/category/' + category.slug}}">{{category.title}}</a>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">ChocoBlog</p>
+  </div>
+  <!-- /.container -->
+</footer>
